@@ -1,0 +1,2 @@
+import {blobCache,netlifyDataset} from '../../lib/data/netlify-store';
+export default async function handler(request:Request){const token=process.env.INGEST_TOKEN;if(request.method!=='POST')return Response.json({error:'Method not allowed'},{status:405});if(!token||token.length<24||request.headers.get('authorization')!==`Bearer ${token}`)return Response.json({error:'Unauthorized'},{status:401});const d=await netlifyDataset(blobCache());return Response.json({generatedAt:d.generatedAt,feeds:d.feeds});}

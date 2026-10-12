@@ -1,0 +1,2 @@
+import {blobCache,netlifyDataset} from '../../lib/data/netlify-store';
+export default async function handler(){let cache;try{cache=blobCache();}catch{cache={get:async()=>null,set:async()=>{throw new Error('Cache unavailable');}};}return Response.json(await netlifyDataset(cache),{headers:{'Cache-Control':'public, max-age=60','Netlify-CDN-Cache-Control':'public, s-maxage=300, stale-while-revalidate=600','X-Content-Type-Options':'nosniff'}});}
